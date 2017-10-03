@@ -1,0 +1,69 @@
+---
+title: "Homework-02"
+author: "Julie Jung"
+date: "October 2, 2017"
+output: html_document
+---
+Every Saturday, at the same time, a primatologist goes and sits in the forest in the morning and listens for titi monkey calls, counting the number of calls they hear in a 2 hour window from 5am to 7am. Based on previous knowledge, she believes that the mean number calls she will hear in that time is exactly 15. Let X represent the appropriate Poisson random variable of the number of calls heard in each monitoring session.
+
+What is the probability that she will hear more than 8 calls during any given session?
+
+```{r}
+x <- 8
+l <- 15
+
+1-ppois(x,l) #1 - the probability of observing up to and including a specific number of events in the given interval (8)
+```
+What is the probability that she will hear no calls in a session?
+
+```{r}
+x <- 0
+l <- 15
+
+dpois(x = x, lambda = l) # prob of hearing exactly x calls
+```
+What is the probability that she will hear exactly 3 calls in a session?
+
+```{r}
+x <- 3
+l <- 15
+
+dpois(x = x, lambda = l)
+```
+Plot the relevant Poisson mass function over the values in range 0 ≤ x ≤ 30.
+
+```{r}
+x <- 0:30
+l <- 15
+
+barplot(dpois(x = x, lambda = l), names.arg = x, space = 0, xlab = "x", ylab = "Pr(X = x)", main = "Probability Mass Function")
+
+barplot(ppois(q = x, lambda = l), ylim = 0:1, space = 0, names.arg = x, xlab = "x", ylab = "Pr(X ≤ x)", main = "Cumulative Probability")
+```
+
+Simulate 104 results from this distribution (i.e., 2 years of Saturday monitoring sessions).
+
+```{r}
+t <- 104 
+l <- 15
+results <- rpois(t,l)
+```
+Plot the simulated results using hist() and use xlim() to set the horizontal limits to be from 0 to 30. How does your histogram compare to the shape of the probability mass function you plotted above?
+
+```{r}
+library(ggplot2)
+hist(results, xlim=c(0,30))
+```
+
+Probability Mass Functions (PMFs) are associated with discrete random variables. These functions describe the probability that a random variable takes a particular discrete value (or falling within a given range of outcome values). 
+
+To be a valid PMF, a function f(x)f(x) must satisfy the following:
+
+1. There are k distinct outcomes x1,x2,.....,xk
+2. 0 ≤ Pr (X=xi) ≤ 1 for all xi
+3. ∑ Pr (X=xi) for all x from x1 to xk = 1
+
+
+The simulated results plotted on a histogram are (simulated) observed count data (which occurred based on probabilities) rather than probabilities of occurence outright. The frequency indicates how many times (with what frequency) the observer heard x number (results, on x-axis) of titi monkey calls within 2 years of Saturday monitoring sessions. Wheras the PMF shows us the probability of observing x number of titi monkey calls within a period of 1 session. 
+
+
